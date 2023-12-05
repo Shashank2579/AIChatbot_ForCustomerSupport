@@ -1,0 +1,33 @@
+#Botpress code making an api call on the Stack AI
+const inputMessage = workflow.StackAIQuestion
+const API_URL = "https://www.stack-inference.com/run_deployed_flow?flow_id=64d5d243763033e306db0373&org=25130104-e00a-422d-ae2c-a3f05688fc96";
+const headers = {
+    'Authorization': 'Bearer 4416d39d-e932-40f3-9e49-72db81f5f9be',
+    'Content-Type': 'application/json'
+};
+const payload = {
+    "in-0": inputMessage
+};
+
+try {
+    const response = await axios.post(API_URL,  payload, { headers: headers });
+    workflow.stackAiResponse = response.data["out-0"];
+} catch (error) {
+    throw new Error(`Error in Stack AI: ${error}`)
+}
+
+
+# StackAI API end-point
+import requests
+
+API_URL = "https://www.stack-inference.com/run_deployed_flow?flow_id=64d5d243763033e306db0373&org=25130104-e00a-422d-ae2c-a3f05688fc96"
+headers = {'Authorization':
+			 'Bearer XXXXXXXXXXXXX',
+			 'Content-Type': 'application/json'
+		}
+
+def query(payload):
+ response = requests.post(API_URL, headers=headers, json=payload)
+ return response.json()
+
+output = query({"in-0": """product list"""})
